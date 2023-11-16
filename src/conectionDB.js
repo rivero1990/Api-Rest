@@ -4,7 +4,7 @@ import configuration from "./configuration.js";
 
 const pool = createPool({
     host: configuration.HOST,
-    port: configuration.PORT,
+    port: configuration.DB_PORT,
     user: configuration.USER,
     password: configuration.PASSWORD,
     database: configuration.NAME
