@@ -18,7 +18,8 @@ CREATE TABLE peliculas (
     secuela TINYINT NOT NULL DEFAULT false 
 );
 
-DESCRIBE peliculas;
+UPDATE peliculas SET nombre = "", recaudacion_millones = "", ganancias_millones = "", secuela = "" WHERE datos_peliculas = 3; 
 
+DELETE FROM peliculas WHERE recaudacion_peliculas = 6;
 
 SELECT * FROM peliculas;
