@@ -1,12 +1,24 @@
 import pool from "../conectionDB.js";
 
-pool
  
+
+/**
+ * Returns all movies if they exist
+ * @param {*} req of the consultation
+ * @param {*} res of the consultation
+ */
  async function getMovies (req, res) {
     try {
-        console.log(req.params);
         const result = await pool.query("SELECT * FROM peliculas");
-        res.json(result);
+        if (!result.length) {
+            res.status(404).json(
+                {
+                    message:"No Movies Found"
+                }
+            )
+        }else{
+            res.json(result[0]); 
+        }
     } catch (error) {
         res.status(500).json({
             report: "Something Went Wrong",
@@ -17,9 +29,15 @@ pool
 
 
  async function getMovie (req, res)  {
-    const result = await pool.query("SELECT * FROM peliculas WHERE datos_peliculas = ?", [req.params.id]);
-    console.log(result);
-    res.json(result);
+    const ID = [req.params.id];
+    const result = await pool.query("SELECT * FROM peliculas WHERE datos_peliculas = ?", ID);
+    if (!result.length) {
+        res.status(404).json({
+            info: "The film was not found with datos_peliculas:"+ ID
+        });
+    }else{
+        res.json(result);
+    }
 };
 
 
