@@ -6,7 +6,7 @@ const route = Router();
 route.get("", moviesControllers.getMovies);
 route.get("/:id", moviesControllers.getMovie);
 route.post("", moviesControllers.createMovie);
-route.put("", moviesControllers.updateMovie);
-route.delete("", moviesControllers.deleteMovie);
+route.put("/:id", moviesControllers.updateMovie);
+route.delete("/:id", moviesControllers.deleteMovie);
 
 export default route;

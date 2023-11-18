@@ -48,6 +48,11 @@ async function getMovie(req, res) {
 };
 
 
+/**
+ * Create a movie in the database
+ * @param {*} req of the consultation
+ * @param {*} res of the consultation
+ */
 async function createMovie(req, res) {
     const { nombre, recaudacion_millones, ganancias_millones, secuela } = req.body;
 
@@ -75,13 +80,67 @@ async function createMovie(req, res) {
     }
 };
 
+
+/**
+ * Updated Delete a movie from the database
+ * @param {*} req of the consultation
+ * @param {*} res of the consultation
+ */
 async function updateMovie(req, res) {
-    res.json(`<h1>Update</h1>`);
+
+    const ID = req.params.id;
+
+    try {
+        const { nombre, recaudacion_millones, ganancias_millones, secuela } = req.body;
+        const [info] = await pool.query(`UPDATE peliculas SET nombre = ?, recaudacion_millones = ?, ganancias_millones = ?, secuela = ? WHERE datos_peliculas = ?;`
+            , [nombre, recaudacion_millones, ganancias_millones, secuela, ID]);
+            
+            if (info.affectedRows !== 1 || info.warningStatus) {
+                res.status(404).json({
+                    info: "Error updating the movie with id: "+ ID
+                });
+            }else{
+                res.json({
+                    info: "Updated Movie"
+                });
+            }
+    } catch (error) {
+        res.status(500).json({
+            report: "Something went wrong when updating the movie with id"+ ID,
+            error: error
+        })
+    }
 };
 
+
+/**
+ * Delete a movie from the database
+ * @param {*} req of the consultation
+ * @param {*} res of the consultation
+ */
 async function deleteMovie(req, res) {
-    res.json(`<h1>Delete</h1>`);
+
+    const ID = [req.params.id];
+    
+    try {
+        const [result] = await pool.query("DELETE FROM peliculas WHERE datos_peliculas = ?;", [ID]);
+        if (result.affectedRows !== 1) {
+            res.status(404).json({
+                info: "The film was not found with datos_peliculas : " + ID
+            });
+        } else {
+            res.json({
+                info: "Movie with id " + ID + " deleted"
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            report: "Something Went Wrong",
+            error: error
+        })
+    }
 };
+
 
 export default {
     getMovies,
