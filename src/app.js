@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors({
     origin: (origin, callback)=>{
         console.log(origin);
-        if (urlPermitted.includes(origin) || !origin) {
+        if (urlPermitted.includes(origin)) {
             callback(null, true);
         }else{
             const error = new Error("Error: Not allowed by CORS");
