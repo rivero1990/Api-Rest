@@ -1,7 +1,6 @@
 import pool from "../conectionDB.js";
 
 
-
 /**
  * Returns all movies if they exist
  * @param {*} req of the consultation
